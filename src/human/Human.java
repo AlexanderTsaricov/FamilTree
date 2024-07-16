@@ -27,6 +27,11 @@ public class Human {
         this.alive = alive;
     }
 
+    public Human(String firstName, String lastName, String patronymic, Sex sex, boolean alive, Calendar dateOfBirth) {
+        this(firstName, lastName, patronymic, sex, alive);
+        this.dateOfBirth = dateOfBirth;
+    }
+
     @Override
     public String toString() {
         return String.format("%s, %s %s %s, %s year of birth", sex, lastName, firstName, patronymic, dateOfBirth.get(Calendar.YEAR));
@@ -70,6 +75,9 @@ public class Human {
     }
     public void setSpouse(Human spouse){
         this.spouse = spouse;
+    }
+    public ArrayList<Human> getChildrens() {
+        return childrens;
     }
 
 }
