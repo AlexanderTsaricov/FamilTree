@@ -21,6 +21,8 @@ public class BloodLine {
          * */
         child.mather = mather;
         child.father = father;
+        setChild(mather, child);
+        setChild(father, child);
     }
     public void setChild(Human parent, Human child) {
         /**
@@ -28,5 +30,10 @@ public class BloodLine {
          * @param child - Ребенок
          * */
         parent.childrens.add(child);
+        setParent(parent, child);
+    }
+    public void setSpouse(Human spouse_1, Human spouse_2){
+        spouse_1.spouse = spouse_2;
+        spouse_2.spouse = spouse_1;
     }
 }

@@ -73,9 +73,6 @@ public class Human {
     public Human getSpouse(){
         return this.spouse;
     }
-    public void setSpouse(Human spouse){
-        this.spouse = spouse;
-    }
     public ArrayList<Human> getChildrens() {
         return childrens;
     }

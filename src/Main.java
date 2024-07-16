@@ -12,7 +12,22 @@ public class Main {
 
     public static void main(String[] args) {
         // Хотел добавить работу с JSON но не разобрался как это сделать
+        BloodLine bloodline = new BloodLine();
+        Human alexander = new Human("Винокуров", "Александр", "Юрьевич", Sex.Male, true);
+        alexander.setBirthDay(1993, 2, 5);
+        Human antonina = new Human("Винокурова", "Антонина", "Юрьевна", Sex.Female, true);
+        antonina.setBirthDay(1990, 7, 16);
+        Human tatyana = new Human("Винокурова", "Татьяна", "Владимировна", Sex.Female, true);
+        tatyana.setBirthDay(1961, 9, 4);
+        bloodline.setChild(tatyana, alexander);
+        bloodline.setChild(tatyana, antonina);
+        Human sveta = new Human("Винокурова", "Светлана", "Олеговна", Sex.Female, true);
+        sveta.setBirthDay(1994, 7, 13);
+        bloodline.setSpouse(sveta, alexander);
         ArrayList<Human> humans = new ArrayList<>();
+        humans.add(alexander);
+        humans.add(antonina);
+        humans.add(tatyana);
         startProgram(humans);
     }
     public static void startProgram(ArrayList<Human> humans) {
@@ -151,7 +166,6 @@ public class Main {
                 BloodLine bloodline = new BloodLine();
                 bloodline.setChild(human, bloodlineHuman);
             }
-            startProgram(humans);
         }
     }
     public static void printDinasty(Human human) {
@@ -174,11 +188,17 @@ public class Main {
             sIndent = sIndent + sIndent;
         }
         ArrayList<Human> childnrens = human.getChildrens();
-        System.out.println(human);
-        System.out.println(sIndent + "Дети:");
-        indent+=1;
-        for (int i = 0; i < childnrens.size(); i++) {
-            printDinasty(childnrens.get(i));
+        if (human.getSpouse() != null) {
+            System.out.println(sIndent + human + " супруг/га: " + human.getSpouse());
+        } else {
+            System.out.println(sIndent + human);
+        }
+        if (human.getChildrens().isEmpty()) {
+            System.out.println(sIndent + sIndent + "Дети:");
+            indent += 1;
+            for (int i = 0; i < childnrens.size(); i++) {
+                printDinasty(childnrens.get(i));
+            }
         }
     }
 }
