@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Human {
-    protected String firstName;
-    protected String lastName;
-    protected String patronymic;
-    protected Calendar dateOfBirth = Calendar.getInstance();
-    protected Sex sex;
+    private String firstName;
+    private String lastName;
+    private String patronymic;
+    private Calendar dateOfBirth = Calendar.getInstance();
+    private Sex sex;
     Human mather;
     Human father;
     ArrayList<Human> childrens;
-    protected boolean alive;
-    protected Human spouse;
+    private boolean alive;
+    private Human spouse;
 
     public Human(String firstName, String lastName, String patronymic, Sex sex) {
         this.firstName = firstName;
@@ -77,4 +77,43 @@ public class Human {
         return childrens;
     }
 
+    /**
+     * @param parent - Родитель
+     * @param child - Ребенок (человек для которого добавляется родитель)
+     * */
+    public static void setParent(Human parent, Human child) {
+        Sex sex = parent.sex;
+        if (Sex.Female == sex) {
+            child.mather = parent;
+        } else {
+            child.father = parent;
+        }
+    }
+    /**
+     * @param mather - Мать
+     * @param father - Отец
+     * @param child - Ребенок (человек для которого добавляется родитель)
+     * */
+    public static void setParent(Human mather, Human father, Human child) {
+        child.mather = mather;
+        child.father = father;
+        setChild(mather, child);
+        setChild(father, child);
+    }
+
+    /**
+     * @param parent - Родитель (человек для которого добавляется ребенок)
+     * @param child - Ребенок
+     * */
+    public static void setChild(Human parent, Human child) {
+        parent.childrens.add(child);
+        setParent(parent, child);
+    }
+    public static void setSpouse(Human spouse_1, Human spouse_2){
+        spouse_1.spouse = spouse_2;
+        spouse_2.spouse = spouse_1;
+    }
+
 }
+
+

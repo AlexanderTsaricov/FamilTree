@@ -1,7 +1,5 @@
-import human.BloodLine;
 import human.Human;
 import human.Sex;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
@@ -12,18 +10,17 @@ public class Main {
 
     public static void main(String[] args) {
         // Хотел добавить работу с JSON но не разобрался как это сделать
-        BloodLine bloodline = new BloodLine();
         Human alexander = new Human("Винокуров", "Александр", "Юрьевич", Sex.Male, true);
         alexander.setBirthDay(1993, 2, 5);
         Human antonina = new Human("Винокурова", "Антонина", "Юрьевна", Sex.Female, true);
         antonina.setBirthDay(1990, 7, 16);
         Human tatyana = new Human("Винокурова", "Татьяна", "Владимировна", Sex.Female, true);
         tatyana.setBirthDay(1961, 9, 4);
-        bloodline.setChild(tatyana, alexander);
-        bloodline.setChild(tatyana, antonina);
+        Human.setChild(tatyana, alexander);
+        Human.setChild(tatyana, antonina);
         Human sveta = new Human("Винокурова", "Светлана", "Олеговна", Sex.Female, true);
         sveta.setBirthDay(1994, 7, 13);
-        bloodline.setSpouse(sveta, alexander);
+        Human.setSpouse(sveta, alexander);
         ArrayList<Human> humans = new ArrayList<>();
         humans.add(alexander);
         humans.add(antonina);
@@ -160,11 +157,9 @@ public class Main {
             inputMessage = enter.nextInt();
             Human bloodlineHuman = humans.get(inputMessage);
             if(valueBlood == 1) {
-                BloodLine bloodline = new BloodLine();
-                bloodline.setParent(bloodlineHuman, human);
+                Human.setParent(bloodlineHuman, human);
             } else {
-                BloodLine bloodline = new BloodLine();
-                bloodline.setChild(human, bloodlineHuman);
+                Human.setChild(human, bloodlineHuman);
             }
         }
     }
@@ -193,7 +188,7 @@ public class Main {
         } else {
             System.out.println(sIndent + human);
         }
-        if (human.getChildrens().isEmpty()) {
+        if (human.getChildrens().size() > 0) {
             System.out.println(sIndent + sIndent + "Дети:");
             indent += 1;
             for (int i = 0; i < childnrens.size(); i++) {
