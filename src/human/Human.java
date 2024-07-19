@@ -1,9 +1,10 @@
 package human;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Human {
+public class Human implements Serializable {
     private String firstName;
     private String lastName;
     private String patronymic;
