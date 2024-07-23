@@ -1,5 +1,7 @@
 import human.Human;
 import human.Sex;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
@@ -8,26 +10,19 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
-    public static void main(String[] args) {
-        // Хотел добавить работу с JSON но не разобрался как это сделать
-        Human alexander = new Human("Винокуров", "Александр", "Юрьевич", Sex.Male, true);
-        alexander.setBirthDay(1993, 2, 5);
-        Human antonina = new Human("Винокурова", "Антонина", "Юрьевна", Sex.Female, true);
-        antonina.setBirthDay(1990, 7, 16);
-        Human tatyana = new Human("Винокурова", "Татьяна", "Владимировна", Sex.Female, true);
-        tatyana.setBirthDay(1961, 9, 4);
-        Human.setChild(tatyana, alexander);
-        Human.setChild(tatyana, antonina);
-        Human sveta = new Human("Винокурова", "Светлана", "Олеговна", Sex.Female, true);
-        sveta.setBirthDay(1994, 7, 13);
-        Human.setSpouse(sveta, alexander);
-        ArrayList<Human> humans = new ArrayList<>();
-        humans.add(alexander);
-        humans.add(antonina);
-        humans.add(tatyana);
-        startProgram(humans);
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        FamilyTree tree = new FamilyTree();
+        try {
+            tree = tree.load();
+
+        } catch (IOException e){
+            System.out.println(e.getMessage() + " - Не получилось загрузить семью");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        startProgram(tree);
     }
-    public static void startProgram(ArrayList<Human> humans) {
+    public static void startProgram(FamilyTree tree) throws IOException {
         String message = """
                 1. Показать старшего династии
                 2. Показать младшего династии
@@ -42,67 +37,55 @@ public class Main {
             System.out.println(message);
             int inputMessage = enter.nextInt();
             if (inputMessage == 6) {
+                System.out.println("Сохранение...");
+                tree.save();
                 System.exit(0);
             }
             switch (inputMessage) {
                 case 1:
-                    if (humans.size() < 1) {
+                    if (tree.getHumanList().size() < 1) {
                         System.out.println("Династия пуста");
                     } else {
-                        System.out.println(getOldestHuman(humans));
+                        System.out.println(tree.getOldestHuman());
                     }
                     break;
                 case 2:
-                    if (humans.size() < 1) {
+                    if (tree.getHumanList().size() < 1) {
                         System.out.println("Династия пуста");
                     } else {
-                        System.out.println(geYoungestHuman(humans));
+                        System.out.println(tree.geYoungestHuman());
                     }
                     break;
                 case 3:
-                    addHuman(humans);
+                    addHuman(tree);
                     break;
                 case 4:
-                    addBloodline(humans);
+                    addBloodline(tree);
                     break;
                 case 5:
-                    Human oldestHuman = getOldestHuman(humans);
-                    printDinasty(oldestHuman);
+                    if (tree.getHumanList().size() > 0) {
+                        Human oldestHuman = tree.getOldestHuman();
+                        printDinasty(oldestHuman);
+                    } else {
+                        System.out.println("Дерево пустое");
+                    }
                     break;
             }
         }
     }
-    public static Human getOldestHuman (ArrayList<Human> humans) {
-        Human oldestHuman = humans.get(0);
-        for (int i = 1; i < humans.size(); i++) {
-            if (humans.get(i).getAge() > oldestHuman.getAge()) {
-                oldestHuman = humans.get(i);
-            }
-        }
-        return oldestHuman;
-    }
-    public static Human geYoungestHuman (ArrayList<Human> humans) {
-        Human youngestHuman = humans.get(0);
-        for (int i = 1; i < humans.size(); i++) {
-            if (humans.get(i).getAge() < youngestHuman.getAge()) {
-                youngestHuman = humans.get(i);
-            }
-        }
-        return youngestHuman;
-    }
 
-    public static void addHuman(ArrayList<Human> humans) {
+    public static void addHuman(FamilyTree tree) throws IOException {
         String[] FIO = new String[3];
         Scanner enter = new Scanner(System.in);
         System.out.print("Введите ФИО или 1 для выхода: ");
         String inputMessage = enter.nextLine();
         if (inputMessage.equals("1")) {
-            startProgram(humans);
+            return;
         } else {
             FIO = inputMessage.split(" ");
         }
         Sex sex = Sex.Male;
-        System.out.println("Выберите пол или\n1. Мужской\n2. Женский\nЛюбой другой текст: выход");
+        System.out.println("Выберите пол или\n1. Мужской\n2. Женский\nЛюбой другой текст: отмена");
         System.out.print("Введите цифру: ");
         inputMessage = enter.nextLine();
         if (inputMessage.equals("1")) {
@@ -110,8 +93,7 @@ public class Main {
         } else if (inputMessage.equals("2")) {
             sex = Sex.Female;
         } else {
-            System.out.println("Выход...");
-            System.exit(0);
+            return;
         }
         System.out.println("Этот человек жив?\n1. Да\n2. Нет");
         inputMessage = enter.nextLine();
@@ -133,33 +115,39 @@ public class Main {
         Calendar dateOfBirth = Calendar.getInstance();
         dateOfBirth.set(date[2], date[1], date[0]);
         Human human = new Human(FIO[0], FIO[1], FIO[2], sex, alive, dateOfBirth);
-        humans.add(human);
+        tree.addHuman(human);
     }
-    public static void printAllHumans(ArrayList<Human> humans) {
-        for (int i = 0; i < humans.size(); i++) {
-            System.out.println(i + ". " + humans.get(i));
+    public static void printAllHumans(FamilyTree tree) {
+        for (int i = 0; i < tree.getHumanList().size(); i++) {
+            System.out.println(i + ". " + tree.getHumanList().get(i));
         }
     }
-    public static void addBloodline(ArrayList<Human> humans) {
-        if (humans.size() < 1) {
+    public static void addBloodline(FamilyTree tree) {
+        if (tree.getHumanList().size() < 1) {
             System.out.println("Династия пуста");
         } else {
             System.out.println("Выберете человека из списка:");
-            printAllHumans(humans);
+            printAllHumans(tree);
             Scanner enter = new Scanner(System.in);
             int inputMessage = enter.nextInt();
-            Human human = humans.get(inputMessage);
-            System.out.println("1. Добавить родителя\n2. Добавить дитя");
+            Human human = tree.getHumanList().get(inputMessage);
+            System.out.println("1. Добавить родителя\n2. Добавить дитя\nДобавить мужа(жену)");
             inputMessage = enter.nextInt();
             int valueBlood = inputMessage;
             System.out.println("Выберете человека из списка:");
-            printAllHumans(humans);
+            printAllHumans(tree);
             inputMessage = enter.nextInt();
-            Human bloodlineHuman = humans.get(inputMessage);
-            if(valueBlood == 1) {
-                Human.setParent(bloodlineHuman, human);
-            } else {
-                Human.setChild(human, bloodlineHuman);
+            Human bloodlineHuman = tree.getHumanList().get(inputMessage);
+            switch (valueBlood) {
+                case 1:
+                    Human.setParent(bloodlineHuman, human);
+                    break;
+                case 2:
+                    Human.setChild(human, bloodlineHuman);
+                    break;
+                case 3:
+                    Human.setSpouse(human, bloodlineHuman);
+                    break;
             }
         }
     }
