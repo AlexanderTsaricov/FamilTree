@@ -1,7 +1,6 @@
-import human.Human;
+package family;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public interface SaveAndLoad {
     abstract void save() throws IOException;

@@ -1,3 +1,4 @@
+import family.FamilyTree;
 import human.Human;
 import human.Sex;
 
@@ -72,9 +73,17 @@ public class Main {
                     }
                     break;
                 case 6:
+                    System.out.println("Сортировка по:\n1. Имени\n2. Возрасту");
+                    inputMessage = enter.nextInt();
+                    if (inputMessage == 2) {
+                        tree.sortByAge();
+                    } else {
+                        tree.sortByName();
+                    }
                     for (int i = 0; i < tree.getHumanList().size(); i++) {
                         System.out.println(tree.getHumanList().get(i));
                     }
+                    break;
             }
         }
     }

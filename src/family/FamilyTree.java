@@ -1,12 +1,15 @@
+package family;
+
 import human.Human;
-import human.Sex;
+import human.HumanComparatorAge;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Scanner;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 
-public class FamilyTree implements SaveAndLoad, Serializable {
+public class FamilyTree implements SaveAndLoad, Serializable, Iterable<Human> {
     private ArrayList<Human> humanList;
 
     public FamilyTree() {
@@ -53,5 +56,18 @@ public class FamilyTree implements SaveAndLoad, Serializable {
             }
         }
         return oldestHuman;
+    }
+
+    @Override
+    public Iterator<Human> iterator() {
+        return new TreeListIterator(humanList);
+    }
+
+    public void sortByName() {
+        Collections.sort(humanList);
+    }
+
+    public void sortByAge() {
+        Collections.sort(humanList, new HumanComparatorAge());
     }
 }
