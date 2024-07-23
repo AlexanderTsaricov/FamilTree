@@ -29,14 +29,15 @@ public class Main {
                 3. Добавить человека
                 4. Добавить кровную линию
                 5. Показать дерево династии
-                6. Выход
+                6. Показать список людей
+                7. Выход
                 """;
         Scanner enter = new Scanner(System.in);
 
         while (true) {
             System.out.println(message);
             int inputMessage = enter.nextInt();
-            if (inputMessage == 6) {
+            if (inputMessage == 7) {
                 System.out.println("Сохранение...");
                 tree.save();
                 System.exit(0);
@@ -70,6 +71,10 @@ public class Main {
                         System.out.println("Дерево пустое");
                     }
                     break;
+                case 6:
+                    for (int i = 0; i < tree.getHumanList().size(); i++) {
+                        System.out.println(tree.getHumanList().get(i));
+                    }
             }
         }
     }
