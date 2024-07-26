@@ -1,19 +1,15 @@
 package family;
 
-import human.Human;
-import human.HumanComparatorAge;
-
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class FamilyTree implements SaveAndLoad, Serializable, Iterable<Human> {
-    private ArrayList<Human> humanList;
+public class FamilyTree<T extends livingBeing> implements SaveAndLoad, Serializable, Iterable<T> {
+    private ArrayList<T> objList;
 
     public FamilyTree() {
-        humanList = new ArrayList<>();
+        objList = new ArrayList<>();
     }
 
     public void save() throws IOException {
@@ -31,43 +27,43 @@ public class FamilyTree implements SaveAndLoad, Serializable, Iterable<Human> {
         return familyTree;
     }
 
-    public ArrayList<Human> getHumanList() {
-        return humanList;
+    public ArrayList<T> getObjList() {
+        return objList;
     }
 
-    public void addHuman(Human human) {
-        this.humanList.add(human);
+    public void addHuman(T obj) {
+        this.objList.add(obj);
     }
 
-    public Human geYoungestHuman () {
-        Human youngestHuman = this.humanList.get(0);
-        for (int i = 1; i < this.humanList.size(); i++) {
-            if (this.humanList.get(i).getAge() < youngestHuman.getAge()) {
-                youngestHuman = this.humanList.get(i);
+    public T geYoungestHuman () {
+        T youngestHuman = this.objList.get(0);
+        for (int i = 1; i < this.objList.size(); i++) {
+            if (this.objList.get(i).getAge() < youngestHuman.getAge()) {
+                youngestHuman = this.objList.get(i);
             }
         }
         return youngestHuman;
     }
-    public Human getOldestHuman () {
-        Human oldestHuman = this.humanList.get(0);
-        for (int i = 1; i < this.humanList.size(); i++) {
-            if (this.humanList.get(i).getAge() > oldestHuman.getAge()) {
-                oldestHuman = this.humanList.get(i);
+    public T getOldestHuman () {
+        T oldestHuman = this.objList.get(0);
+        for (int i = 1; i < this.objList.size(); i++) {
+            if (this.objList.get(i).getAge() > oldestHuman.getAge()) {
+                oldestHuman = this.objList.get(i);
             }
         }
         return oldestHuman;
     }
 
     @Override
-    public Iterator<Human> iterator() {
-        return new TreeListIterator(humanList);
+    public Iterator<T> iterator() {
+        return new TreeListIterator(objList);
     }
 
     public void sortByName() {
-        Collections.sort(humanList);
+        Collections.sort(this.objList, new TreeComparatorName<T>());
     }
 
     public void sortByAge() {
-        Collections.sort(humanList, new HumanComparatorAge());
+        Collections.sort(objList, new TreeComparatorAge<T>());
     }
 }

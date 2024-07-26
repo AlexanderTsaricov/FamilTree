@@ -1,10 +1,10 @@
 package human;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import family.livingBeing;
 
-public class Human implements Serializable, Comparable<Human> {
+public class Human implements Serializable, Comparable<Human>, livingBeing {
     private String firstName;
     private String lastName;
     private String patronymic;
@@ -120,6 +120,11 @@ public class Human implements Serializable, Comparable<Human> {
         String name = this.lastName + this.firstName + this.patronymic;
         String nameO = o.lastName + o.firstName + this.patronymic;
         return name.compareTo(nameO);
+    }
+
+    @Override
+    public String getName() {
+        return this.lastName + this.firstName + this.patronymic;
     }
 }
 

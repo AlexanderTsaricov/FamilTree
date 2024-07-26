@@ -1,21 +1,18 @@
 package family;
 
-import human.Human;
-
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.function.Consumer;
 
-public class TreeListIterator implements Iterator<Human> {
-    private ArrayList<Human> humanList;
+public class TreeListIterator<T> implements Iterator<T> {
+    private ArrayList<T> objList;
     private int index;
-    public TreeListIterator (ArrayList<Human> humanList) {
-        this.humanList = humanList;
+    public TreeListIterator (ArrayList<T> objList) {
+        this.objList = objList;
     }
 
     @Override
     public boolean hasNext() {
-        if (humanList.size() > index) {
+        if (objList.size() > index) {
             return true;
         } else {
             return false;
@@ -23,7 +20,7 @@ public class TreeListIterator implements Iterator<Human> {
     }
 
     @Override
-    public Human next() {
-        return humanList.get(index++);
+    public T next() {
+        return objList.get(index++);
     }
 }
