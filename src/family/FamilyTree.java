@@ -5,26 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class FamilyTree<T extends livingBeing> implements SaveAndLoad, Serializable, Iterable<T> {
+public class FamilyTree<T extends LivingBeing> implements Serializable, Iterable<T> {
     private ArrayList<T> objList;
 
     public FamilyTree() {
         objList = new ArrayList<>();
-    }
-
-    public void save() throws IOException {
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(
-                new FileOutputStream("humans.json"));
-        objectOutputStream.writeObject(this);
-        objectOutputStream.close();
-
-    }
-    public FamilyTree load() throws IOException, ClassNotFoundException {
-        ObjectInputStream objectInputStream = new ObjectInputStream(
-                new FileInputStream("humans.json"));
-        FamilyTree familyTree = (FamilyTree) objectInputStream.readObject();
-        objectInputStream.close();
-        return familyTree;
     }
 
     public ArrayList<T> getObjList() {

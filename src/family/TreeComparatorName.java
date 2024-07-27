@@ -2,7 +2,7 @@ package family;
 
 import java.util.Comparator;
 
-public class TreeComparatorName<T extends livingBeing> implements Comparator<T> {
+public class TreeComparatorName<T extends LivingBeing> implements Comparator<T> {
     @Override
     public int compare(T o1, T o2) {
         return o1.getName().compareTo(o2.getName());

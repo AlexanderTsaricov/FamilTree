@@ -3,6 +3,7 @@ package consoleUI;
 import family.FamilyTree;
 import human.Human;
 import human.Sex;
+import save.Saving;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,10 +11,11 @@ import java.util.Calendar;
 import java.util.Scanner;
 
 public class ConsoleVersionProgram {
+    private static final Saving<FamilyTree> saved = new Saving<FamilyTree>();
     public static void startProgram() throws IOException, ClassNotFoundException {
-        FamilyTree<Human> tree = new FamilyTree<>();
+        FamilyTree tree = new FamilyTree<>();
         try {
-            tree = tree.load();
+            tree = saved.load();
 
         } catch (IOException e){
             System.out.println(e.getMessage() + " - Не получилось загрузить семью");
@@ -36,7 +38,7 @@ public class ConsoleVersionProgram {
             int inputMessage = enter.nextInt();
             if (inputMessage == 7) {
                 System.out.println("Сохранение...");
-                tree.save();
+                saved.save(tree);
                 System.exit(0);
             }
             switch (inputMessage) {
@@ -168,7 +170,11 @@ public class ConsoleVersionProgram {
             sIndent = sIndent + sIndent;
         }
         ArrayList<Human> childnrens = human.getChildrens();
-        System.out.println(human);
+        if (human.getSpouse() != null) {
+            System.out.println(sIndent + human + " супруг/га: " + human.getSpouse());
+        } else {
+            System.out.println(human);
+        }
         System.out.println(sIndent + "Дети:");
         indent+=1;
         for (int i = 0; i < childnrens.size(); i++) {

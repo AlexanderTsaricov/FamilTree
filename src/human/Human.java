@@ -2,9 +2,9 @@ package human;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import family.livingBeing;
+import family.LivingBeing;
 
-public class Human implements Serializable, Comparable<Human>, livingBeing {
+public class Human implements Serializable, Comparable<Human>, LivingBeing {
     private String firstName;
     private String lastName;
     private String patronymic;

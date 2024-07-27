@@ -1,6 +1,6 @@
 package family;
 
-public interface livingBeing {
+public interface LivingBeing {
     int getAge();
     String getName();
 }
