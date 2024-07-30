@@ -1,4 +1,5 @@
-import consoleUI.ConsoleVersionProgram;
+import consoleUI.Menu.Menu;
+
 import java.io.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -6,7 +7,7 @@ import java.io.*;
 public class Main {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        ConsoleVersionProgram start = new ConsoleVersionProgram();
-        start.startProgram();
+        Menu menu = new Menu();
+        menu.start();
     }
 }

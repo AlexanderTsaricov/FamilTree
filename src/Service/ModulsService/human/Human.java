@@ -1,8 +1,10 @@
-package Service.ModulsServise.ModulsService.human;
+package Service.ModulsService.human;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import Service.ModulsServise.ModulsService.family.LivingBeing;
+
+import Service.ModulsService.family.FamilyTree;
+import Service.ModulsService.family.LivingBeing;
 
 public class Human implements Serializable, Comparable<Human>, LivingBeing<Human> {
     private String firstName;

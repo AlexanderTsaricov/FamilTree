@@ -1,4 +1,4 @@
-package Service.ModulsServise.ModulsService.human;
+package Service.ModulsService.human;
 
 import java.util.Comparator;
 

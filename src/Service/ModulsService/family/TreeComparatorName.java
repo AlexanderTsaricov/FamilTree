@@ -1,4 +1,4 @@
-package Service.ModulsServise.ModulsService.family;
+package Service.ModulsService.family;
 
 import java.util.Comparator;
 

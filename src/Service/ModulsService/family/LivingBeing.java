@@ -1,4 +1,4 @@
-package Service.ModulsServise.ModulsService.family;
+package Service.ModulsService.family;
 
 public interface LivingBeing<T> {
     int getAge();
