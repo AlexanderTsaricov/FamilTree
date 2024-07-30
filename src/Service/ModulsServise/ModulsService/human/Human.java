@@ -1,10 +1,10 @@
-package human;
+package Service.ModulsServise.ModulsService.human;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import family.LivingBeing;
+import Service.ModulsServise.ModulsService.family.LivingBeing;
 
-public class Human implements Serializable, Comparable<Human>, LivingBeing {
+public class Human implements Serializable, Comparable<Human>, LivingBeing<Human> {
     private String firstName;
     private String lastName;
     private String patronymic;
@@ -80,39 +80,37 @@ public class Human implements Serializable, Comparable<Human>, LivingBeing {
 
     /**
      * @param parent - Родитель
-     * @param child - Ребенок (человек для которого добавляется родитель)
      * */
-    public static void setParent(Human parent, Human child) {
+    public void setParent(Human parent) {
         Sex sex = parent.sex;
         if (Sex.Female == sex) {
-            child.mather = parent;
+            this.mather = parent;
         } else {
-            child.father = parent;
+            this.father = parent;
         }
+        parent.childrens.add(this);
     }
     /**
      * @param mather - Мать
      * @param father - Отец
-     * @param child - Ребенок (человек для которого добавляется родитель)
      * */
-    public static void setParent(Human mather, Human father, Human child) {
-        child.mather = mather;
-        child.father = father;
-        setChild(mather, child);
-        setChild(father, child);
+    public void setParent(Human mather, Human father) {
+        this.mather = mather;
+        this.father = father;
+        mather.setChild(this);
+        father.setChild(this);
     }
 
     /**
-     * @param parent - Родитель (человек для которого добавляется ребенок)
      * @param child - Ребенок
      * */
-    public static void setChild(Human parent, Human child) {
-        parent.childrens.add(child);
-        setParent(parent, child);
+    public void setChild(Human child) {
+        this.childrens.add(child);
+        child.setParent(this);
     }
-    public static void setSpouse(Human spouse_1, Human spouse_2){
-        spouse_1.spouse = spouse_2;
-        spouse_2.spouse = spouse_1;
+    public void setSpouse(Human spouse_2){
+        this.spouse = spouse_2;
+        spouse_2.spouse = this;
     }
 
     @Override

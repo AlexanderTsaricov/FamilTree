@@ -1,9 +1,9 @@
 package consoleUI;
 
-import family.FamilyTree;
-import human.Human;
-import human.Sex;
-import save.Saving;
+import Service.ModulsServise.ModulsService.family.FamilyTree;
+import Service.ModulsServise.ModulsService.human.Human;
+import Service.ModulsServise.ModulsService.human.Sex;
+import Service.ModulsServise.ModulsService.save.Saving;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +39,7 @@ public class ConsoleVersionProgram {
             if (inputMessage == 7) {
                 System.out.println("Сохранение...");
                 saved.save(tree);
+                System.out.println("Завершение программы...");
                 System.exit(0);
             }
             switch (inputMessage) {
@@ -87,8 +88,20 @@ public class ConsoleVersionProgram {
     }
 
     public static void addHuman(FamilyTree tree) throws IOException {
+        Human parent = new Human("NoName", "NoName", "NoName", Sex.Male);
         String[] FIO = new String[3];
         Scanner enter = new Scanner(System.in);
+        System.out.println("1. Добавить с родителем\n2. Добавить без родителя");
+        String strWithParentsOrNo = enter.nextLine();
+        int withParentsOrNo = Integer.parseInt(strWithParentsOrNo);
+        if (withParentsOrNo == 1) {
+            System.out.println("Выберете родителя из списка:");
+            printAllHumans(tree);
+            System.out.print("Введите номер родителя: ");
+            String parentIndexStr = enter.nextLine();
+            int parentIndex = Integer.parseInt(parentIndexStr);
+            parent = (Human) tree.getObjList().get(parentIndex);
+        }
         System.out.print("Введите ФИО или 1 для выхода: ");
         String inputMessage = enter.nextLine();
         if (inputMessage.equals("1")) {
@@ -128,6 +141,9 @@ public class ConsoleVersionProgram {
         dateOfBirth.set(date[2], date[1], date[0]);
         Human human = new Human(FIO[0], FIO[1], FIO[2], sex, alive, dateOfBirth);
         tree.addHuman(human);
+        if (withParentsOrNo == 1) {
+            human.setParent(parent, human);
+        }
     }
     public static void printAllHumans(FamilyTree tree) {
         for (int i = 0; i < tree.getObjList().size(); i++) {
@@ -152,7 +168,7 @@ public class ConsoleVersionProgram {
             Human bloodlineHuman = (Human) tree.getObjList().get(inputMessage);
             switch (valueBlood) {
                 case 1:
-                    Human.setParent(bloodlineHuman, human);
+                    human.setParent(bloodlineHuman, human);
                     break;
                 case 2:
                     Human.setChild(human, bloodlineHuman);
@@ -165,9 +181,9 @@ public class ConsoleVersionProgram {
     }
     public static void printDinasty(Human human) {
         int indent = 1;
-        String sIndent = "    ";
+        String sIndent = " ";
         for (int i = 1; i < indent; i++) {
-            sIndent = sIndent + sIndent;
+            sIndent = sIndent + " ";
         }
         ArrayList<Human> childnrens = human.getChildrens();
         if (human.getSpouse() != null) {
@@ -182,9 +198,9 @@ public class ConsoleVersionProgram {
         }
     }
     public static void printDinasty(Human human, int indent) {
-        String sIndent = "    ";
+        String sIndent = " ";
         for (int i = 1; i < indent; i++) {
-            sIndent = sIndent + sIndent;
+            sIndent = sIndent + " ";
         }
         ArrayList<Human> childnrens = human.getChildrens();
         if (human.getSpouse() != null) {
