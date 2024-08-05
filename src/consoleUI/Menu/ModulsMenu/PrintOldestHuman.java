@@ -1,5 +1,6 @@
 package consoleUI.Menu.ModulsMenu;
 
+import Presenter.Presenter;
 import Service.ServiceHumanFamily;
 
 public class PrintOldestHuman implements MenuFunc {
@@ -9,11 +10,11 @@ public class PrintOldestHuman implements MenuFunc {
     }
 
     @Override
-    public void use(ServiceHumanFamily servise) {
-        if (servise.getHumansList().size() < 1) {
-            System.out.println(servise.ERROR);
+    public void use(Presenter presenter) {
+        if (presenter.boolStateDynasty()) {
+            System.out.println(presenter.stateDynasty());
         } else {
-            System.out.println(servise.getOldestHuman());
+            System.out.println(presenter.getOldestHuman());
         }
     }
 }

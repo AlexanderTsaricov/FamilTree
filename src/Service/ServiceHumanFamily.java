@@ -11,20 +11,19 @@ import java.util.Calendar;
 
 public class ServiceHumanFamily {
     FamilyTree<Human> familyTree;
-    public Human human;
-    public Human humanFromFamily;
-    public Sex useSex;
-    public Sex male = Sex.Male;
-    public Sex female = Sex.Female;
+    private Human human;
+    private Human humanFromFamily;
+    private Sex useSex;
+    private Sex male = Sex.Male;
+    private Sex female = Sex.Female;
     private static Saving<FamilyTree<Human>, Human> saveClass;
-    public String ERROR = "";
+    private String ERROR = "";
 
     public ServiceHumanFamily() throws IOException, ClassNotFoundException {
         saveClass = new Saving<>();
         human = new Human("NoName", "NoName", "NoName", Sex.Male);
         humanFromFamily = new Human("NoName", "NoName", "NoName", Sex.Male);
         try {
-            ERROR = "Успешная загрузка семьи";
             this.familyTree = saveClass.load();
         } catch (IOException e){
             ERROR = e.getMessage() + " - Не получилось загрузить семью";
@@ -34,6 +33,27 @@ public class ServiceHumanFamily {
             System.out.println(e.getMessage());
         }
 
+    }
+    public String getError() {
+        return this.ERROR;
+    }
+    public void setTempHuman(Human human) {
+        this.human = human;
+    }
+    public Human getTempHuman() {
+        return this.human;
+    }
+    public void setHumanFromFamily(Human humanFromFamily) {
+        this.humanFromFamily = humanFromFamily;
+    }
+    public Human getHumanFromFamily() {
+        return this.humanFromFamily;
+    }
+    public void setTempSexToMale () {
+        this.useSex = male;
+    }
+    public void setTempSexToFemale () {
+        this.useSex = female;
     }
     public void newHuman(String firstName, String lastName, String patronimyc, boolean alive, Calendar dateOfBirth){
         this.human = new Human(firstName, lastName, patronimyc, this.useSex, alive, dateOfBirth);

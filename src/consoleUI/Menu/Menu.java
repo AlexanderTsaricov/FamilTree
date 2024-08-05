@@ -1,5 +1,6 @@
 package consoleUI.Menu;
 
+import Presenter.Presenter;
 import Service.ServiceHumanFamily;
 import consoleUI.Menu.ModulsMenu.*;
 
@@ -9,7 +10,7 @@ import java.util.Scanner;
 
 public class Menu {
     ArrayList<MenuFunc> menu = new ArrayList<>();
-    ServiceHumanFamily service;
+    Presenter presenter;
 
     AddHumanToFamily addHuman = new AddHumanToFamily();
     AddFamilyConnection addFamilyConnection = new AddFamilyConnection();
@@ -20,7 +21,7 @@ public class Menu {
     OutOfProgram out = new OutOfProgram();
 
     public Menu() throws IOException, ClassNotFoundException {
-        service = new ServiceHumanFamily();
+        presenter = new Presenter();
         this.menu.add(addHuman);
         this.menu.add(addFamilyConnection);
         this.menu.add(printDinasty);
@@ -40,8 +41,10 @@ public class Menu {
             sb.append(this.menu.get(i).getMenuItemName());
             sb.append("\n");
         }
-        while (out.flag) {
-            System.out.println(service.ERROR);
+        while (out.getFlag()) {
+            if (!presenter.getErrorMessage().equals("")) {
+                System.out.println(presenter.getErrorMessage());
+            }
             System.out.println("Меню:");
             System.out.println(sb.toString());
             String choice = scanner.nextLine();
@@ -50,7 +53,7 @@ public class Menu {
                 System.out.println("Неправильный ввод. Попробуйте еще раз.");
                 continue;
             }
-            this.menu.get(index).use(service);
+            this.menu.get(index).use(presenter);
         }
     }
 
