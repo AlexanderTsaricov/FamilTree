@@ -1,11 +1,11 @@
-package family;
+package Service.ModulsService.family;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class FamilyTree<T extends LivingBeing> implements Serializable, Iterable<T> {
+public class FamilyTree<T extends LivingBeing<T>> implements Serializable, Iterable<T>, Tree<T, FamilyTree<T>> {
     private ArrayList<T> objList;
 
     public FamilyTree() {
@@ -16,8 +16,14 @@ public class FamilyTree<T extends LivingBeing> implements Serializable, Iterable
         return objList;
     }
 
+    @Override
     public void addHuman(T obj) {
         this.objList.add(obj);
+    }
+    public void addHumanWithParents(T obj, T parent) {
+        obj.setParent(parent);
+        this.objList.add(obj);
+
     }
 
     public T geYoungestHuman () {
