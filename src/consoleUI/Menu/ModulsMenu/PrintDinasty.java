@@ -1,7 +1,6 @@
 package consoleUI.Menu.ModulsMenu;
 
 import Presenter.Presenter;
-import Service.ServiceHumanFamily;
 
 public class PrintDinasty implements MenuFunc {
     @Override
