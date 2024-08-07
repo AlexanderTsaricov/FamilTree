@@ -1,7 +1,6 @@
 package consoleUI.Menu;
 
 import Presenter.Presenter;
-import Service.ServiceHumanFamily;
 import consoleUI.Menu.ModulsMenu.*;
 
 import java.io.IOException;
@@ -9,16 +8,16 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
-    ArrayList<MenuFunc> menu = new ArrayList<>();
-    Presenter presenter;
+    private ArrayList<MenuFunc> menu = new ArrayList<>();
+    private Presenter presenter;
 
-    AddHumanToFamily addHuman = new AddHumanToFamily();
-    AddFamilyConnection addFamilyConnection = new AddFamilyConnection();
-    PrintDinasty printDinasty = new PrintDinasty();
-    PrintFamilyList printFamilyList = new PrintFamilyList();
-    PrintOldestHuman printOldest = new PrintOldestHuman();
-    PrintYongestHuman printYoungest = new PrintYongestHuman();
-    OutOfProgram out = new OutOfProgram();
+    private AddHumanToFamily addHuman = new AddHumanToFamily();
+    private AddFamilyConnection addFamilyConnection = new AddFamilyConnection();
+    private PrintDinasty printDinasty = new PrintDinasty();
+    private PrintFamilyList printFamilyList = new PrintFamilyList();
+    private PrintOldestHuman printOldest = new PrintOldestHuman();
+    private PrintYongestHuman printYoungest = new PrintYongestHuman();
+    private OutOfProgram out = new OutOfProgram();
 
     public Menu() throws IOException, ClassNotFoundException {
         presenter = new Presenter();
