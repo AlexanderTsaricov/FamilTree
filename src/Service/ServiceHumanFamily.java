@@ -4,7 +4,6 @@ import Service.ModulsService.family.FamilyTree;
 import Service.ModulsService.human.Human;
 import Service.ModulsService.human.Sex;
 import Service.ModulsService.save.Saving;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,17 +13,14 @@ public class ServiceHumanFamily {
     private Human human;
     private Human humanFromFamily;
     private Sex useSex;
-    private Sex male = Sex.Male;
-    private Sex female = Sex.Female;
-    private static Saving<FamilyTree<Human>, Human> saveClass;
     private String ERROR = "";
 
     public ServiceHumanFamily() throws IOException, ClassNotFoundException {
-        saveClass = new Saving<>();
+        Saving<FamilyTree<Human>, Human> save = new Saving<>();
         human = new Human("NoName", "NoName", "NoName", Sex.Male);
         humanFromFamily = new Human("NoName", "NoName", "NoName", Sex.Male);
         try {
-            this.familyTree = saveClass.load();
+            this.familyTree = save.load();
         } catch (IOException e){
             ERROR = e.getMessage() + " - Не получилось загрузить семью";
             this.familyTree = new FamilyTree<>();
@@ -50,10 +46,10 @@ public class ServiceHumanFamily {
         return this.humanFromFamily;
     }
     public void setTempSexToMale () {
-        this.useSex = male;
+        this.useSex = Sex.Male;
     }
     public void setTempSexToFemale () {
-        this.useSex = female;
+        this.useSex = Sex.Female;
     }
     public void newHuman(String firstName, String lastName, String patronimyc, boolean alive, Calendar dateOfBirth){
         this.human = new Human(firstName, lastName, patronimyc, this.useSex, alive, dateOfBirth);
@@ -62,14 +58,15 @@ public class ServiceHumanFamily {
      * Save the family tree
      * */
     public void save() throws IOException {
-        saveClass.save(familyTree);
+        Saving<FamilyTree<Human>, Human> save = new Saving<>();
+        save.save(familyTree);
     }
     /**
      * Download the family tree
      * */
-    public static FamilyTree load() throws IOException, ClassNotFoundException {
-
-        return saveClass.load();
+    public FamilyTree load() throws IOException, ClassNotFoundException {
+        Saving<FamilyTree<Human>, Human> save = new Saving<>();
+        return save.load();
     }
     /**
      * Return oldest human from the family tree

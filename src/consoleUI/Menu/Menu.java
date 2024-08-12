@@ -10,23 +10,17 @@ import java.util.Scanner;
 public class Menu {
     private ArrayList<MenuFunc> menu = new ArrayList<>();
     private Presenter presenter;
-
-    private AddHumanToFamily addHuman = new AddHumanToFamily();
-    private AddFamilyConnection addFamilyConnection = new AddFamilyConnection();
-    private PrintDinasty printDinasty = new PrintDinasty();
-    private PrintFamilyList printFamilyList = new PrintFamilyList();
-    private PrintOldestHuman printOldest = new PrintOldestHuman();
-    private PrintYongestHuman printYoungest = new PrintYongestHuman();
     private OutOfProgram out = new OutOfProgram();
+    // Данное поле нужно для флага, который находится внутри модуля OutOfProgram
 
     public Menu() throws IOException, ClassNotFoundException {
         presenter = new Presenter();
-        this.menu.add(addHuman);
-        this.menu.add(addFamilyConnection);
-        this.menu.add(printDinasty);
-        this.menu.add(printFamilyList);
-        this.menu.add(printOldest);
-        this.menu.add(printYoungest);
+        this.menu.add(new AddHumanToFamily());
+        this.menu.add(new AddFamilyConnection());
+        this.menu.add(new PrintDinasty());
+        this.menu.add(new PrintFamilyList());
+        this.menu.add(new PrintOldestHuman());
+        this.menu.add(new PrintYongestHuman());
         this.menu.add(out);
     }
 
