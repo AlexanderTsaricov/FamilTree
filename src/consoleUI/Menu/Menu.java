@@ -1,6 +1,7 @@
 package consoleUI.Menu;
 
 import Presenter.Presenter;
+import Service.ModulsService.human.Sex;
 import consoleUI.Menu.ModulsMenu.*;
 
 import java.io.IOException;
@@ -87,6 +88,7 @@ public class Menu {
         }
     }
     public void addPeople() {
+        int parentIndex = 0;
         String[] FIO = new String[3];
         Scanner enter = new Scanner(System.in);
         System.out.println("1. Добавить с родителем\n2. Добавить без родителя");
@@ -97,7 +99,7 @@ public class Menu {
             System.out.println(presenter.getHumanList());
             System.out.print("Введите номер родителя: ");
             String parentIndexStr = enter.nextLine();
-            int parentIndex = Integer.parseInt(parentIndexStr);
+            parentIndex = Integer.parseInt(parentIndexStr) - 1;
         }
         System.out.print("Введите ФИО или 1 для выхода: ");
         String inputMessage = enter.nextLine();
@@ -105,10 +107,15 @@ public class Menu {
         } else {
             FIO = inputMessage.split(" ");
             System.out.println("Выберите пол или\n1. Мужской\n2. Женский\n---Любой другой текст: отмена");
+            Sex sex;
             System.out.print("Введите цифру: ");
             inputMessage = enter.nextLine();
-            if (!inputMessage.equals("1") || !inputMessage.equals("2")) {
+            if (!inputMessage.equals("1") && !inputMessage.equals("2")) {
                 return;
+            } else if (inputMessage.equals("1")) {
+                sex = Sex.Male;
+            } else {
+                sex = Sex.Female;
             }
             System.out.println("Этот человек жив?\n1. Да\n2. Нет");
             inputMessage = enter.nextLine();
@@ -129,7 +136,7 @@ public class Menu {
             }
             Calendar dateOfBirth = Calendar.getInstance();
             dateOfBirth.set(date[2], date[1], date[0]);
-            presenter.addHuman(FIO, alive, dateOfBirth, withParentsOrNo);
+            presenter.addHuman(FIO, sex, alive, dateOfBirth, withParentsOrNo, parentIndex);
         }
     }
     public void out() throws IOException {
@@ -149,16 +156,16 @@ public class Menu {
     }
     public void printOldestPeople() {
         if (presenter.boolStateDynasty()) {
-            System.out.println(presenter.stateDynasty());
-        } else {
             System.out.println(presenter.getOldestHuman());
+        } else {
+            System.out.println(presenter.stateDynasty());
         }
     }
     public void printYoungestPeople() {
         if (presenter.boolStateDynasty()) {
-            System.out.println(presenter.stateDynasty());
-        } else {
             System.out.println(presenter.getYoungestHuman());
+        } else {
+            System.out.println(presenter.stateDynasty());
         }
     }
 }

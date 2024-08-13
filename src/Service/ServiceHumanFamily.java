@@ -10,15 +10,9 @@ import java.util.Calendar;
 
 public class ServiceHumanFamily {
     FamilyTree<Human> familyTree;
-    private Human human;
-    private Human humanFromFamily;
-    private Sex useSex;
     private String ERROR = "";
-//TODO убрать поля использующие другие классы
     public ServiceHumanFamily() throws IOException, ClassNotFoundException {
         Saving<FamilyTree<Human>, Human> save = new Saving<>();
-        human = new Human("NoName", "NoName", "NoName", Sex.Male);
-        humanFromFamily = new Human("NoName", "NoName", "NoName", Sex.Male);
         try {
             this.familyTree = save.load();
         } catch (IOException e){
@@ -32,27 +26,6 @@ public class ServiceHumanFamily {
     }
     public String getError() {
         return this.ERROR;
-    }
-    public void setTempHuman(Human human) {
-        this.human = human;
-    }
-    public Human getTempHuman() {
-        return this.human;
-    }
-    public void setHumanFromFamily(Human humanFromFamily) {
-        this.humanFromFamily = humanFromFamily;
-    }
-    public Human getHumanFromFamily() {
-        return this.humanFromFamily;
-    }
-    public void setTempSexToMale () {
-        this.useSex = Sex.Male;
-    }
-    public void setTempSexToFemale () {
-        this.useSex = Sex.Female;
-    }
-    public void newHuman(String firstName, String lastName, String patronimyc, boolean alive, Calendar dateOfBirth){
-        this.human = new Human(firstName, lastName, patronimyc, this.useSex, alive, dateOfBirth);
     }
     /**
      * Save the family tree
@@ -93,15 +66,18 @@ public class ServiceHumanFamily {
     }
     /**
      * Add new human in family tree
+     * @param human the new person who added to the family tree
      * */
-    public void addHuman(){
-        familyTree.addHuman(this.human);
+    public void addHuman(Human human){
+        familyTree.addHuman(human);
     }
     /**
      * Add parent from human
+     * @param child the person for whom to add the parent
+     * @param parent the parent for whom to add the child
      * */
-    public void setParent() {
-        this.human.setParent(this.humanFromFamily);
+    public void setParent(Human child, Human parent) {
+        child.setParent(parent);
     }
     /**
      * Add parents from human
@@ -111,15 +87,17 @@ public class ServiceHumanFamily {
     }
     /**
      * Add children from human
+     * @param parent the person for whom to add the children
+     * @param child the person the son of the parent
      * */
-    public void setChild() {
-        this.human.setChild(this.humanFromFamily);
+    public void setChild(Human parent, Human child) {
+        parent.setChild(child);
     }
     /**
      * Add spourse from human
      * */
-    public void setSpouse(){
-        this.human.setSpouse(this.humanFromFamily);
+    public void setSpouse(Human human, Human spouse){
+        human.setSpouse(spouse);
     }
     /**
      * Return list of humans from family tree
@@ -138,6 +116,9 @@ public class ServiceHumanFamily {
      * */
     public void sortByAge() {
         familyTree.sortByAge();
+    }
+    public FamilyTree<Human> getFamilyTree() {
+        return familyTree;
     }
 
 }
