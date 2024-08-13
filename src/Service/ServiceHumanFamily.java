@@ -14,7 +14,7 @@ public class ServiceHumanFamily {
     private Human humanFromFamily;
     private Sex useSex;
     private String ERROR = "";
-
+//TODO убрать поля использующие другие классы
     public ServiceHumanFamily() throws IOException, ClassNotFoundException {
         Saving<FamilyTree<Human>, Human> save = new Saving<>();
         human = new Human("NoName", "NoName", "NoName", Sex.Male);
