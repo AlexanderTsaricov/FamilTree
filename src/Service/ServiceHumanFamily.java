@@ -4,27 +4,17 @@ import Service.ModulsService.family.FamilyTree;
 import Service.ModulsService.human.Human;
 import Service.ModulsService.human.Sex;
 import Service.ModulsService.save.Saving;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ServiceHumanFamily {
     FamilyTree<Human> familyTree;
-    private Human human;
-    private Human humanFromFamily;
-    private Sex useSex;
-    private Sex male = Sex.Male;
-    private Sex female = Sex.Female;
-    private static Saving<FamilyTree<Human>, Human> saveClass;
     private String ERROR = "";
-
     public ServiceHumanFamily() throws IOException, ClassNotFoundException {
-        saveClass = new Saving<>();
-        human = new Human("NoName", "NoName", "NoName", Sex.Male);
-        humanFromFamily = new Human("NoName", "NoName", "NoName", Sex.Male);
+        Saving<FamilyTree<Human>, Human> save = new Saving<>();
         try {
-            this.familyTree = saveClass.load();
+            this.familyTree = save.load();
         } catch (IOException e){
             ERROR = e.getMessage() + " - Не получилось загрузить семью";
             this.familyTree = new FamilyTree<>();
@@ -37,39 +27,19 @@ public class ServiceHumanFamily {
     public String getError() {
         return this.ERROR;
     }
-    public void setTempHuman(Human human) {
-        this.human = human;
-    }
-    public Human getTempHuman() {
-        return this.human;
-    }
-    public void setHumanFromFamily(Human humanFromFamily) {
-        this.humanFromFamily = humanFromFamily;
-    }
-    public Human getHumanFromFamily() {
-        return this.humanFromFamily;
-    }
-    public void setTempSexToMale () {
-        this.useSex = male;
-    }
-    public void setTempSexToFemale () {
-        this.useSex = female;
-    }
-    public void newHuman(String firstName, String lastName, String patronimyc, boolean alive, Calendar dateOfBirth){
-        this.human = new Human(firstName, lastName, patronimyc, this.useSex, alive, dateOfBirth);
-    }
     /**
      * Save the family tree
      * */
     public void save() throws IOException {
-        saveClass.save(familyTree);
+        Saving<FamilyTree<Human>, Human> save = new Saving<>();
+        save.save(familyTree);
     }
     /**
      * Download the family tree
      * */
-    public static FamilyTree load() throws IOException, ClassNotFoundException {
-
-        return saveClass.load();
+    public FamilyTree load() throws IOException, ClassNotFoundException {
+        Saving<FamilyTree<Human>, Human> save = new Saving<>();
+        return save.load();
     }
     /**
      * Return oldest human from the family tree
@@ -96,15 +66,18 @@ public class ServiceHumanFamily {
     }
     /**
      * Add new human in family tree
+     * @param human the new person who added to the family tree
      * */
-    public void addHuman(){
-        familyTree.addHuman(this.human);
+    public void addHuman(Human human){
+        familyTree.addHuman(human);
     }
     /**
      * Add parent from human
+     * @param child the person for whom to add the parent
+     * @param parent the parent for whom to add the child
      * */
-    public void setParent() {
-        this.human.setParent(this.humanFromFamily);
+    public void setParent(Human child, Human parent) {
+        child.setParent(parent);
     }
     /**
      * Add parents from human
@@ -114,15 +87,17 @@ public class ServiceHumanFamily {
     }
     /**
      * Add children from human
+     * @param parent the person for whom to add the children
+     * @param child the person the son of the parent
      * */
-    public void setChild() {
-        this.human.setChild(this.humanFromFamily);
+    public void setChild(Human parent, Human child) {
+        parent.setChild(child);
     }
     /**
      * Add spourse from human
      * */
-    public void setSpouse(){
-        this.human.setSpouse(this.humanFromFamily);
+    public void setSpouse(Human human, Human spouse){
+        human.setSpouse(spouse);
     }
     /**
      * Return list of humans from family tree
@@ -141,6 +116,9 @@ public class ServiceHumanFamily {
      * */
     public void sortByAge() {
         familyTree.sortByAge();
+    }
+    public FamilyTree<Human> getFamilyTree() {
+        return familyTree;
     }
 
 }

@@ -1,7 +1,7 @@
 package consoleUI.Menu.ModulsMenu;
 
 import Presenter.Presenter;
-import Service.ServiceHumanFamily;
+import consoleUI.Menu.Menu;
 
 public class PrintDinasty implements MenuFunc {
     @Override
@@ -10,7 +10,7 @@ public class PrintDinasty implements MenuFunc {
     }
 
     @Override
-    public void use(Presenter presenter) {
-        System.out.println(presenter.getDytansy());
+    public void use(Menu menu) {
+        menu.printDinasty();
     }
 }
